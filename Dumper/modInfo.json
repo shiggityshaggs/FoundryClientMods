@@ -1,0 +1,8 @@
+﻿{
+	"identifier": "ResearchQueueMod",
+	"displayName": "ResearchQueueMod",
+	"assetBundles": [],
+	"assemblies": [
+		"ResearchQueueMod.dll"
+	]
+}

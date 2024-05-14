@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResearchQueueMod", "Dumper\ResearchQueueMod.csproj", "{34C7D6B1-0D22-4867-9740-479267812CF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34C7D6B1-0D22-4867-9740-479267812CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34C7D6B1-0D22-4867-9740-479267812CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34C7D6B1-0D22-4867-9740-479267812CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34C7D6B1-0D22-4867-9740-479267812CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FADCE185-5DE3-4FE4-9EE9-DD5F0E10FE5D}
+	EndGlobalSection
+EndGlobal
