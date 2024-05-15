@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResearchQueueMod", "ResearchQueue\ResearchQueueMod.csproj", "{34C7D6B1-0D22-4867-9740-479267812CF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenameWorld", "RenameWorld\RenameWorld.csproj", "{4012F866-1F7B-4363-B67C-21FB3A8DAE3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkipIntroAndTutorial", "SkipIntroAndTutorial\SkipIntroAndTutorial.csproj", "{C9AE7939-BC43-44D4-94CC-88C7704662D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,13 @@ Global
 		{34C7D6B1-0D22-4867-9740-479267812CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34C7D6B1-0D22-4867-9740-479267812CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34C7D6B1-0D22-4867-9740-479267812CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4012F866-1F7B-4363-B67C-21FB3A8DAE3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4012F866-1F7B-4363-B67C-21FB3A8DAE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4012F866-1F7B-4363-B67C-21FB3A8DAE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9AE7939-BC43-44D4-94CC-88C7704662D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9AE7939-BC43-44D4-94CC-88C7704662D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9AE7939-BC43-44D4-94CC-88C7704662D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9AE7939-BC43-44D4-94CC-88C7704662D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
