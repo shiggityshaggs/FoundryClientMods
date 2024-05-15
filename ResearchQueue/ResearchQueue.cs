@@ -63,8 +63,6 @@ namespace ResearchQueueMod
 
             private void Update()
             {
-                InputHandler();
-
                 if (GameRoot.IsGameInitDone && !ResearchSystem.isAnyResearchActive())
                 {
                     if (autoResearch || GlobalStateManager.isDedicatedServer)
@@ -85,12 +83,6 @@ namespace ResearchQueueMod
                         }
                     }
                 }
-            }
-
-            private void InputHandler()
-            {
-                if (!Input.GetKey(KeyCode.LeftControl)) return;
-                if (Input.GetKeyDown(KeyCode.R)) ResearchFrameManager.toggleFrame();
             }
         }
     }
