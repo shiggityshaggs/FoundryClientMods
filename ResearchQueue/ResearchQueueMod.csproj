@@ -71,10 +71,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt">
+    <None Include="Readme.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="FoundryModManager_mod_data.json" />
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
