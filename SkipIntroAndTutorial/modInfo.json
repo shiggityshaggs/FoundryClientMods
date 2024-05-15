@@ -1,0 +1,8 @@
+﻿{
+	"identifier": "SkipIntroAndTutorial",
+	"displayName": "SkipIntroAndTutorial",
+	"assetBundles": [],
+	"assemblies": [
+		"SkipIntroAndTutorial.dll"
+	]
+}
