@@ -1,0 +1,8 @@
+﻿{
+	"identifier": "CargoDestinations",
+	"displayName": "CargoDestinations",
+	"assetBundles": [],
+	"assemblies": [
+		"CargoDestinations.dll"
+	]
+}
