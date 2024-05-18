@@ -70,7 +70,7 @@ namespace ResearchQueueMod
                         foreach (var kvp in ResearchSystem.getAvailableResearchTemplateDictionary())
                         {
                             if ((BuildInfo.isDemo && !kvp.Value.includeInDemo) || kvp.Value.isLockedByMissingEntitlement()) continue;
-                            GameRoot.addLockstepEvent(new StartResearchEvent(kvp.Key));
+                            GameRoot.addLockstepEvent(new StartResearchEvent(kvp.Key, GameRoot.getSkipTutorial()));
                         }
                     }
                     else
@@ -79,7 +79,7 @@ namespace ResearchQueueMod
                         {
                             ulong researchTemplateId = nextResearchTemplateId;
                             nextResearchTemplateId = 0UL;
-                            GameRoot.addLockstepEvent(new StartResearchEvent(researchTemplateId));
+                            GameRoot.addLockstepEvent(new StartResearchEvent(researchTemplateId, GameRoot.getSkipTutorial()));
                         }
                     }
                 }
