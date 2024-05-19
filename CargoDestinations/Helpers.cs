@@ -19,7 +19,7 @@ namespace CargoDestinations
         internal static IEnumerable<DroneTransportGO> Stations => _stations ?? Refresh();
         internal static IEnumerable<DroneTransportGO> Refresh()
         {
-            _stations = UnityEngine.Object.FindObjectsOfType<DroneTransportGO>(true).Where(s => IsValidDroneTransport(s) && !s.template.droneTransport_isStartStation);
+            _stations = UnityEngine.Object.FindObjectsOfType<DroneTransportGO>(true).Where(s => IsValidDroneTransport(s));
             return _stations;
         }
 
@@ -27,6 +27,7 @@ namespace CargoDestinations
         {
             return transport?.template != null
                    && transport.template.type == BuildableObjectTemplate.BuildableObjectType.DroneTransport
+                   && !transport.template.droneTransport_isStartStation
                    && transport.transform.position != Vector3.zero;
         }
 
@@ -41,7 +42,11 @@ namespace CargoDestinations
         {
             byte[] arr = new byte[128];
             uint count = 0U;
-            DroneTransportGO.droneTransportEntity_getStationName(entityId: relatedEntityId, type: (byte)stationType, out_stationName: arr, stationNameLength: (uint)arr.Length, out_stationNameLength: ref count);
+            DroneTransportGO.droneTransportEntity_getStationName(entityId: relatedEntityId,
+                                                                 type: (byte)stationType,
+                                                                 out_stationName: arr,
+                                                                 stationNameLength: (uint)arr.Length,
+                                                                 out_stationNameLength: ref count);
             return Encoding.UTF8.GetString(arr, 0, (int)count);
         }
     }

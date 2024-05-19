@@ -15,7 +15,7 @@ namespace CargoDestinations
         }
 
         [HarmonyPatch(typeof(DroneTransportSetDestinationFrame), nameof(DroneTransportSetDestinationFrame.showFrame)), HarmonyPostfix]
-        static void SPP_DroneTransport_onClick_setDestination()
+        static void DroneTransportSetDestinationFrame_showFrame()
         {
             Helpers.Refresh();
         }
