@@ -7,8 +7,8 @@
     <ProjectGuid>{34C7D6B1-0D22-4867-9740-479267812CF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResearchQueueMod</RootNamespace>
-    <AssemblyName>ResearchQueueMod</AssemblyName>
+    <RootNamespace>ResearchQueue</RootNamespace>
+    <AssemblyName>ResearchQueue</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
