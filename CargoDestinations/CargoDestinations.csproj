@@ -36,6 +36,10 @@
       <HintPath>..\..\foundry_Data\Managed\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Channel3">
+      <HintPath>..\..\foundry_Data\Managed\Channel3.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Main">
       <HintPath>..\..\foundry_Data\Managed\Main.dll</HintPath>
       <Private>False</Private>

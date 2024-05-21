@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -13,22 +11,26 @@ namespace CargoDestinations
         PickUp = 1,
     }
 
+    internal class Station
+    {
+        public ulong EntityId { get; } = 0UL;
+        public string StationName { get; set; } = string.Empty;
+        public StationType StationType { get; } = StationType.None;
+        public Vector3 Position { get; set; }
+        public Station(ulong EntityId, bool IsStartStation, Vector3 Position)
+        {
+            this.EntityId = EntityId;
+            this.StationType = IsStartStation ? StationType.PickUp : StationType.DropOff;
+            this.StationName = Helpers.GetStationName(EntityId, StationType);
+            this.Position = Position;
+        }
+    }
+
     class Helpers
     {
-        private static IEnumerable<DroneTransportGO> _stations;
-        internal static IEnumerable<DroneTransportGO> Stations => _stations ?? Refresh();
-        internal static IEnumerable<DroneTransportGO> Refresh()
+        internal static bool IsValidTemplate(BuildableObjectTemplate template)
         {
-            _stations = UnityEngine.Object.FindObjectsOfType<DroneTransportGO>(true).Where(s => IsValidDroneTransport(s));
-            return _stations;
-        }
-
-        internal static bool IsValidDroneTransport(DroneTransportGO transport)
-        {
-            return transport?.template != null
-                   && transport.template.type == BuildableObjectTemplate.BuildableObjectType.DroneTransport
-                   && !transport.template.droneTransport_isStartStation
-                   && transport.transform.position != Vector3.zero;
+            return template != null && template.type == BuildableObjectTemplate.BuildableObjectType.DroneTransport;
         }
 
         internal static void ConstrainToScreen(ref Rect rect, bool shrinkToContent = false)

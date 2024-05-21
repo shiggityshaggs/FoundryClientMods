@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace CargoDestinations
 {
     [DisallowMultipleComponent]
     class GUIComponent : MonoBehaviour
     {
+        internal static Dictionary<ulong, Station> Stations = new Dictionary<ulong, Station>();
+
+        void Awake()
+        {
+            Stations.Clear();
+        }
+
         void OnGUI()
         {
             if (DroneTransportSetDestinationFrame.singleton != null)
@@ -27,17 +35,32 @@ namespace CargoDestinations
 
         void WindowFunction(int id)
         {
-            foreach (var station in Helpers.Stations)
+            foreach (var kvp in Stations)
             {
-                var name = station.StationName();
-                var dist = Vector3.Distance(GameRoot.getRenderCharacterPosition(), station.transform.position);
-                string distStr = $"({dist:F0}m)";
+                Station station = kvp.Value;
+                if (station.StationType != StationType.DropOff) continue;
 
-                bool unNamed = (name == "Unnamed Station");
-                GUI.color = unNamed ? Color.red : Color.green;
-                if (GUILayout.Button($"{name} {distStr}") && !unNamed)
+                string displayString = string.Empty;
+                bool unNamed = (station.StationName == "Unnamed Station");
+                displayString += unNamed ? "Unnamed Station (Click to name)" : station.StationName;
+
+                if (station.Position != Vector3.zero)
                 {
-                    DroneTransportSetDestinationFrame.singleton.inputField_stationName.tmp_inputField.text = name;
+                    var dist = Vector3.Distance(GameRoot.getRenderCharacterPosition(), station.Position);
+                    displayString += $" ({dist:F0}m)";
+                }
+
+                GUI.color = unNamed ? Color.red : Color.green;
+                if (GUILayout.Button(displayString))
+                {
+                    if (unNamed)
+                    {
+                        DroneTransportSetNameFrame.showFrame(station.EntityId);
+                    }
+                    else
+                    {
+                        DroneTransportSetDestinationFrame.singleton.inputField_stationName.tmp_inputField.text = station.StationName;
+                    }
                 }
             }
         }
