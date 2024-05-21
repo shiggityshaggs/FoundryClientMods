@@ -1,1 +1,1 @@
-﻿Skips intro and tutorial when creating a new game.
+Deprecated. Next update lets you skip the tutorial anyways.
