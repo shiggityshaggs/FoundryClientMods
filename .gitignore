@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /RenameWorld
 /VersionChecker
+/BiggerMap
+/lib/net48
