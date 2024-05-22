@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ResearchQueueMod
@@ -63,24 +64,27 @@ namespace ResearchQueueMod
 
             private void Update()
             {
-                if (GameRoot.IsGameInitDone && !ResearchSystem.isAnyResearchActive())
+                if (!GameRoot.IsGameInitDone || ResearchSystem.isAnyResearchActive()) return;
+
+                if (autoResearch || GlobalStateManager.isDedicatedServer)
                 {
-                    if (autoResearch || GlobalStateManager.isDedicatedServer)
+                    var ordered = ResearchSystem.getAvailableResearchTemplateDictionary()
+                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder);
+
+                    foreach (var kvp in ordered)
                     {
-                        foreach (var kvp in ResearchSystem.getAvailableResearchTemplateDictionary())
-                        {
-                            if ((BuildInfo.isDemo && !kvp.Value.includeInDemo) || kvp.Value.isLockedByMissingEntitlement()) continue;
-                            GameRoot.addLockstepEvent(new StartResearchEvent(kvp.Key, false));
-                        }
+                        if ((BuildInfo.isDemo && !kvp.Value.includeInDemo) || kvp.Value.isLockedByMissingEntitlement()) continue;
+                        GameRoot.addLockstepEvent(new StartResearchEvent(kvp.Key, false));
+                        break;
                     }
-                    else
+                }
+                else
+                {
+                    if (nextResearchTemplateId != 0UL)
                     {
-                        if (nextResearchTemplateId != 0UL && !ResearchSystem.isAnyResearchActive())
-                        {
-                            ulong researchTemplateId = nextResearchTemplateId;
-                            nextResearchTemplateId = 0UL;
-                            GameRoot.addLockstepEvent(new StartResearchEvent(researchTemplateId, false));
-                        }
+                        ulong researchTemplateId = nextResearchTemplateId;
+                        nextResearchTemplateId = 0UL;
+                        GameRoot.addLockstepEvent(new StartResearchEvent(researchTemplateId, false));
                     }
                 }
             }
