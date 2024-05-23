@@ -69,7 +69,8 @@ namespace ResearchQueueMod
                 if (autoResearch || GlobalStateManager.isDedicatedServer)
                 {
                     var ordered = ResearchSystem.getAvailableResearchTemplateDictionary()
-                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder);
+                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder)
+                                                .Where(kvp => !kvp.Value._isEndlessResearch());
 
                     foreach (var kvp in ordered)
                     {
