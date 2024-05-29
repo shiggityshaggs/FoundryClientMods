@@ -69,12 +69,14 @@ namespace ResearchQueueMod
                 if (autoResearch || GlobalStateManager.isDedicatedServer)
                 {
                     var ordered = ResearchSystem.getAvailableResearchTemplateDictionary()
-                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder)
-                                                .Where(kvp => !kvp.Value._isEndlessResearch());
+                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder);
 
                     foreach (var kvp in ordered)
                     {
-                        if ((BuildInfo.isDemo && !kvp.Value.includeInDemo) || kvp.Value.isLockedByMissingEntitlement()) continue;
+                        if ((BuildInfo.isDemo && !kvp.Value.includeInDemo) ||
+                            kvp.Value.isLockedByMissingEntitlement() ||
+                            kvp.Value.flags == ResearchTemplate.ResearchTemplateFlags.HIDE_IN_NON_DEMO_BUILD ||
+                            kvp.Value.flags == ResearchTemplate.ResearchTemplateFlags.ENDLESS_RESEARCH) continue;
                         GameRoot.addLockstepEvent(new StartResearchEvent(kvp.Key, false));
                         break;
                     }
