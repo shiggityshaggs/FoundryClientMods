@@ -9,7 +9,11 @@ namespace ResearchQueueMod
     [HarmonyPatch]
     internal class ResearchQueue
     {
-        private static bool autoResearch;
+        internal static bool playResearchNotifications = true;
+        internal static bool autoResearch;
+        internal static float timer;
+        internal static float delay = 1f;
+        internal static bool hasSingleItemsLeft = true;
         internal static ulong nextResearchTemplateId;
         internal static ResearchDetailsFrame researchDetailsFrame;
         internal static ResearchFrameManager researchFrameManager;
@@ -29,8 +33,8 @@ namespace ResearchQueueMod
 
             private void ConstrainToScreen(ref Rect rect, bool shrinkToContent = false)
             {
-                rect.x = Screen.width;
-                rect.y = Screen.height;
+                rect.x = Screen.width - rect.width - 40;
+                rect.y = Screen.height - rect.height - 40;
                 rect.x = Math.Max(0, Math.Min(rect.x, Screen.width - rect.width));
                 rect.y = Math.Max(0, Math.Min(rect.y, Screen.height - rect.height));
                 if (shrinkToContent) rect.width = 0; rect.height = 0;
@@ -39,20 +43,20 @@ namespace ResearchQueueMod
             private void OnGUI()
             {
                 if (GlobalStateManager.isDedicatedServer || !GameRoot.IsGameInitDone || researchFrameManager == null || !researchFrameManager.gameObject.activeSelf) return;
+                GUI.backgroundColor = Color.black;
                 windowRect = GUILayout.Window(id: 0, screenRect: windowRect, windowFunction, "Research Queue", options: windowOptions);
                 ConstrainToScreen(ref windowRect, true);
             }
 
             private void windowFunction(int id)
             {
-                autoResearch = GUILayout.Toggle(autoResearch, "Auto");
-
                 if (!autoResearch)
                 {
                     foreach (ulong rtId in researchTemplateQueue)
                     {
-                        var rt = ItemTemplateManager.getResearchTemplateById(rtId);
+                        ResearchTemplate rt = ItemTemplateManager.getResearchTemplateById(rtId);
                         if (rt == null) continue;
+                        GUI.color = Color.white;
                         if (GUILayout.Button(rt.name))
                         {
                             researchTemplateQueue.Remove(rtId);
@@ -60,35 +64,46 @@ namespace ResearchQueueMod
                         }
                     }
                 }
+
+                GUI.color = autoResearch ? Color.green : Color.red;
+                autoResearch = GUILayout.Toggle(autoResearch, "Auto");
+
+                GUI.color = playResearchNotifications ? Color.green : Color.red;
+                playResearchNotifications = GUILayout.Toggle(playResearchNotifications, "Notifications");
             }
 
             private void Update()
             {
+                if (timer > delay) { timer -= timer; }
+                else { timer += Time.deltaTime; return; }
+
                 if (!GameRoot.IsGameInitDone || ResearchSystem.isAnyResearchActive()) return;
 
-                if (autoResearch || GlobalStateManager.isDedicatedServer)
+                if (hasSingleItemsLeft && (autoResearch || GlobalStateManager.isDedicatedServer))
                 {
                     var ordered = ResearchSystem.getAvailableResearchTemplateDictionary()
-                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder);
+                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder)
+                                                .Where(kvp => !kvp.Value.isLockedByMissingEntitlement())
+                                                .Where(kvp => !kvp.Value._isEndlessResearch());
 
-                    foreach (var kvp in ordered)
+                    if (BuildInfo.isDemo) ordered = ordered.Where(kvp => kvp.Value.includeInDemo);
+                    if (!BuildInfo.isDemo) ordered = ordered.Where(kvp => !kvp.Value.flags.HasFlagNonAlloc(ResearchTemplate.ResearchTemplateFlags.HIDE_IN_NON_DEMO_BUILD));
+
+                    hasSingleItemsLeft = ordered.Any(kvp => !kvp.Value._isEndlessResearch());
+
+                    foreach (var (key,RT) in ordered)
                     {
-                        if ((BuildInfo.isDemo && !kvp.Value.includeInDemo) ||
-                            kvp.Value.isLockedByMissingEntitlement() ||
-                            kvp.Value.flags == ResearchTemplate.ResearchTemplateFlags.HIDE_IN_NON_DEMO_BUILD ||
-                            kvp.Value.flags == ResearchTemplate.ResearchTemplateFlags.ENDLESS_RESEARCH) continue;
-                        GameRoot.addLockstepEvent(new StartResearchEvent(kvp.Key, false));
+                        GameRoot.addLockstepEvent(new StartResearchEvent(key, false));
                         break;
                     }
+                    return;
                 }
-                else
+
+                if (nextResearchTemplateId != 0UL)
                 {
-                    if (nextResearchTemplateId != 0UL)
-                    {
-                        ulong researchTemplateId = nextResearchTemplateId;
-                        nextResearchTemplateId = 0UL;
-                        GameRoot.addLockstepEvent(new StartResearchEvent(researchTemplateId, false));
-                    }
+                    ulong researchTemplateId = nextResearchTemplateId;
+                    nextResearchTemplateId = 0UL;
+                    GameRoot.addLockstepEvent(new StartResearchEvent(researchTemplateId, false));
                 }
             }
         }

@@ -37,6 +37,9 @@
       <HintPath>..\..\foundry_Data\Managed\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Channel3">
+      <HintPath>..\..\foundry_Data\Managed\Channel3.dll</HintPath>
+    </Reference>
     <Reference Include="Main">
       <HintPath>..\..\foundry_Data\Managed\Main.dll</HintPath>
       <Private>False</Private>
@@ -45,6 +48,9 @@
     <Reference Include="UnityEngine">
       <HintPath>..\..\foundry_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\foundry_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\foundry_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
@@ -61,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="ResearchQueue.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
