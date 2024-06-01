@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="Channel3">
       <HintPath>..\..\foundry_Data\Managed\Channel3.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Main">
       <HintPath>..\..\foundry_Data\Managed\Main.dll</HintPath>
@@ -51,6 +52,7 @@
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>..\..\foundry_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\foundry_Data\Managed\UnityEngine.CoreModule.dll</HintPath>

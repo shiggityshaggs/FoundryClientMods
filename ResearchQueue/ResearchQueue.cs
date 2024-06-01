@@ -82,9 +82,10 @@ namespace ResearchQueueMod
                 if (hasSingleItemsLeft && (autoResearch || GlobalStateManager.isDedicatedServer))
                 {
                     var ordered = ResearchSystem.getAvailableResearchTemplateDictionary()
-                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder)
-                                                .Where(kvp => !kvp.Value.isLockedByMissingEntitlement())
-                                                .Where(kvp => !kvp.Value._isEndlessResearch());
+                                                .OrderBy(kvp => kvp.Value.highestSciencePackSortingOrder) // Do the least complex science packs first
+                                                .ThenBy(kvp => kvp.Value.input.Sum(input => input.Value) * kvp.Value.secondsPerScienceItem) // Do the least time consuming first
+                                                .Where(kvp => !kvp.Value.isLockedByMissingEntitlement()) // Respect entitlement
+                                                .Where(kvp => !kvp.Value._isEndlessResearch()); // Don't get stuck on endless
 
                     if (BuildInfo.isDemo) ordered = ordered.Where(kvp => kvp.Value.includeInDemo);
                     if (!BuildInfo.isDemo) ordered = ordered.Where(kvp => !kvp.Value.flags.HasFlagNonAlloc(ResearchTemplate.ResearchTemplateFlags.HIDE_IN_NON_DEMO_BUILD));
